@@ -87,7 +87,7 @@ function downloadJson(data) {
 }
 
 async function loadToken() {
-  const res = await fetch('https://chat.openai.com/api/auth/session');
+  const res = await fetch('https://chatgpt.com/api/auth/session');
 
   if (!res.ok) {
     throw new Error('failed to fetch token');
@@ -99,12 +99,12 @@ async function loadToken() {
 
 async function getConversationIds(token, offset = 0) {
   const res = await fetch(
-    `https://chat.openai.com/backend-api/conversations?offset=${offset}&limit=20`,
-    {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    },
+      `https://chatgpt.com/backend-api/conversations?offset=${offset}&limit=20`,
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
   );
 
   if (!res.ok) {
@@ -123,14 +123,14 @@ async function fetchConversation(token, id, maxAttempts = 3, attempt = 1) {
   const BACKOFF_MULTIPLIER = 2;
   try {
     const res = await fetch(
-      `https://chat.openai.com/backend-api/conversation/${id}`,
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      },
+        `https://chatgpt.com/backend-api/conversation/${id}`,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
     );
-    
+
     if (!res.ok) {
       throw new Error('Unsuccessful response');
     }
@@ -154,8 +154,8 @@ async function getAllConversations(startOffset, stopOffset) {
 
   // get first batch
   const { total, items: allItems } = await getConversationIds(
-    token,
-    startOffset,
+      token,
+      startOffset
   );
 
   // generate offsets
@@ -174,7 +174,7 @@ async function getAllConversations(startOffset, stopOffset) {
   }
 
   const lastOffset =
-    stopOffset === -1 ? offsets[offsets.length - 1] : stopOffset;
+      stopOffset === -1 ? offsets[offsets.length - 1] : stopOffset;
 
   const allConversations = [];
   const requested = getRequestCount(total, startOffset, stopOffset);
@@ -201,17 +201,20 @@ async function getAllConversations(startOffset, stopOffset) {
   return allConversations;
 }
 
-async function main(startOffset, stopOffset) {
-  const allConversations = await getAllConversations(startOffset, stopOffset);
-  await downloadJson(allConversations);
+async function main() {
+  // Customize START_OFFSET and STOP_OFFSET as needed
+  // if you need to continue from a previous run
+  // increments of 20
+  const START_OFFSET = 0;
+// set to -1 to run through all messages
+  const STOP_OFFSET = -1;
+
+  try {
+    const allConversations = await getAllConversations(START_OFFSET, STOP_OFFSET);
+    await downloadJson(allConversations);
+    console.log("GPT-BACKUP::DONE");
+  } catch (error) {console.error("GPT-BACKUP::FAILED:", error);}
 }
 
-// customize if you need to continue from a previous run
-// increments of 20
-const START_OFFSET = 0;
-// set to -1 to run through all messages
-const STOP_OFFSET = -1;
-
-main(START_OFFSET, STOP_OFFSET)
-  .then(() => console.log('GPT-BACKUP::DONE'))
-  .catch((e) => console.error(e));
+// Invoke the main function when the script is executed
+main();

@@ -1,28 +1,36 @@
-# Backup your ChatGPT conversations
+# ChatGPT Conversation Backup Extension
 
-A single client side script to backup your entire conversation history on [chat.openai.com](https://chat.openai.com). The output is a single JSON file of your history.
+Chrome Extension for Complete ChatGPT Conversation Backup
 
-## You can now preview your backups by opening `index.html` locally
+**Effortlessly backup your entire ChatGPT conversation history with a single click.**
 
-1. Clone the repo: `git clone https://github.com/abacaj/chatgpt-backup.git`
-2. Open `index.html` in your browser
-3. Load the file from the top left
-
-![Preview](assets/preview.png)
+A single client side script to backup your entire conversation history on [chatgpt.com](https://chatgpt.com). The output is a single JSON file of your history.
 
 ## How to use
 
-1. Visit https://chat.openai.com
+1. Clone this repository.
+1. Open the Extension Management page by navigating to `chrome://extensions`.
+2. Enable Developer Mode by clicking the toggle switch next to Developer mode.
+3. Click the Load unpacked button and select the extension directory. (Cloned local repository directory)
+1. Visit [https://chatgpt.com](https://chatgpt.com)
 2. Make sure you are logged in
-3. Open chrome console or firefox console (F12 on keyboard)
-4. Click on "Console" tab
-5. Copy the entire script content found in file backup.js and paste into the console input field at the bottom
-6. Press enter, script starts and will log progress to console
+3. Click on the extension icon
+4. Click on the "Backup" button
+5. Wait for the backup to complete
+6. Download the backup file
+7. Done!
+
+If you what see the progress of the backup:
+1. Open chrome console or firefox console (F12 on keyboard)
+2. Click on "Console" tab
    ![Progress](assets/progress.png)
-7. If it fails at any point you can check the console logs to see the offset it failed at
-8. You can run from any offset by adjusting the script offsets found at the bottom of the script:
+
+If it fails at any point you can check the console logs to see the offset it failed at
+
+You can run from any offset by adjusting the script offsets found at the bottom of the script:
 
 ```js
+// backup.js
 const START_OFFSET = 0;
 const STOP_OFFSET = -1;
 ```
@@ -63,4 +71,13 @@ Some of the key benefits:
 
 ## Contributors
 
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
 - [@FredySandoval](https://github.com/FredySandoval) - Preview backups feature
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
