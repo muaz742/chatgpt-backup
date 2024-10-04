@@ -4,70 +4,63 @@ Chrome Extension for Complete ChatGPT Conversation Backup
 
 **Effortlessly backup your entire ChatGPT conversation history with a single click.**
 
-A single client side script to backup your entire conversation history on [chatgpt.com](https://chatgpt.com). The output is a single JSON file of your history.
+A single client-side script to backup your entire conversation history on [chatgpt.com](https://chatgpt.com). The output is a single JSON file of your history.
 
-## How to use
+## Installation
 
-1. Clone this repository.
-1. Open the Extension Management page by navigating to `chrome://extensions`.
-2. Enable Developer Mode by clicking the toggle switch next to Developer mode.
-3. Click the Load unpacked button and select the extension directory. (Cloned local repository directory)
-1. Visit [https://chatgpt.com](https://chatgpt.com)
-2. Make sure you are logged in
-3. Click on the extension icon
-4. Click on the "Backup" button
-5. Wait for the backup to complete
-6. Download the backup file
-7. Done!
+1. Clone this repository to your local machine:
+    ```bash
+    git clone https://github.com/muaz742/chatgpt-backup-extension.git
+    ```
+2. Open Chrome and navigate to the Extensions Management page by typing `chrome://extensions` in the address bar.
+3. Enable **Developer Mode** by toggling the switch on the top right of the page.
+4. Click the **Load unpacked** button and select the directory where you cloned this repository.
 
-If you what see the progress of the backup:
-1. Open chrome console or firefox console (F12 on keyboard)
-2. Click on "Console" tab
-   ![Progress](assets/progress.png)
+## Usage
 
-If it fails at any point you can check the console logs to see the offset it failed at
+1. Go to [https://chatgpt.com](https://chatgpt.com) and make sure you are logged in.
+2. Click on the extension icon in the browser toolbar.
+3. Click on the **Backup** button.
+4. Wait for the backup process to complete. You can monitor progress in the browser console:
+   - Press `F12` to open Developer Tools.
+   - Go to the **Console** tab to see real-time updates.
+5. Once completed, the backup will automatically download as a JSON file.
+6. That's it! Your backup is complete.
 
-You can run from any offset by adjusting the script offsets found at the bottom of the script:
+### Handling Backup Errors
 
+If the backup fails at any point, check the console logs for the offset at which it failed. You can manually adjust the offset values in the script to resume from a specific point.
+
+To adjust the script offsets:
 ```js
 // backup.js
 const START_OFFSET = 0;
 const STOP_OFFSET = -1;
 ```
 
-## How it works
+## How it Works
 
-This uses the same frontend API that is used by your client browser.
+This extension uses the same frontend API that your browser uses when interacting with [chatgpt.com](https://chatgpt.com). It respects rate limits and allows you to backup your conversation history in segments if necessary.
 
-## Benefits
+## Key Benefits
 
-Some of the key benefits:
+- Works on Chrome, Firefox, and Opera.
+- Fully client-side; the code is auditable in the `backup.js` file.
+- Handles rate limits gracefully.
+- Easily adjust offsets to divide large backups into smaller chunks.
 
-- Nothing to download or install
-- Tested on chrome, firefox
-- Fully client side, single script, copy paste to run
-- Respects rate limits
-- Fails early
-- Adjust offsets if you have many conversations, ex. start at 0 to 500, then run 500 to 1000
-- **Fully auditable code in the backup.js file, no third parties**
+## Use Cases
 
-## Use cases
-
-- Backup your conversation history offline
-- The model output from the current OAI terms state that they belong to you
-- Useful if you need to look back when the service is down
-- Intended as a read-only backup (the ids aren't stored)
+- Backup your ChatGPT conversation history offline.
+- Useful for reviewing conversations when the service is unavailable.
+- Provides a read-only backup that respects OpenAI's terms and conditions.
 
 ## Notes
 
-- Tested with 700+ conversations
-- Current rate is 60 conversations/minute
-- Roughly 10 minutes for 600 conversations
-- Roughly 1 hour for 6000 conversations
-- This is to respect the OAI API rate limits
-- Keep your browser tab open, you don't need it to be focused for this to finish
-- Chrome **may** prompt you to download the file once it's completed
-- Tested on firefox, requires you to type `allow pasting` before you can paste the script
+- Tested with over 700 conversations.
+- Backup rate: ~60 conversations per minute.
+- Keep your browser tab open (it doesn't need to be in focus).
+- On Firefox, you may need to allow pasting before using the script.
 
 ## Contributors
 
@@ -76,8 +69,8 @@ to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
-- [@FredySandoval](https://github.com/FredySandoval) - Preview backups feature
-
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) License. See the [LICENSE](LICENSE) file for details.
+
+This project is a fork of the [chatgpt-backup](https://github.com/abacaj/chatgpt-backup) repository by [@abacaj](https://github.com/abacaj), and has been developed with additional features and improvements.
